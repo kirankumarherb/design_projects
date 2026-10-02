@@ -1,0 +1,47 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: Release please
+on:
+  push:
+    paths-ignore:
+      - ".github/**"
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  # Release process based on `release-please` Action
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
+      id-token: write
+      issues: write
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - uses: actions/create-github-app-token@v2
+        id: app-token
+        with:
+          app-id: ${{ secrets.DEVOPS_GH_APP_ID }}
+          private-key: ${{ secrets.DEVOPS_GH_PRIVATE_KEY }}
+
+      - name: Release with release-please
+        uses: googleapis/release-please-action@v4
+        id: release
+        with:
+          # PAT is required here for being able to trigger the PR workflow when
+          # `release-please` creates a new PR
+          token: ${{ steps.app-token.outputs.token }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+      - name: Setup moon
+        if: ${{ steps.release.outputs.releases_created == 'true' }}
+        uses: moonrepo/setup-toolchain@v0
+        with:
+          moon-version: "2.2.4"
+          auto-install: false

@@ -1,0 +1,6 @@
+{
+  "packages": {
+    "apps/<your_app_name>": {}
+  },
+  "sequential-calls": true
+}
