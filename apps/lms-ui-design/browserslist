@@ -1,0 +1,9 @@
+# List of supported browsers, for autoprefixer
+# See https://github.com/ai/browserslist
+
+Last 2 versions
+> 1%
+not dead
+not IE 11
+not IE_Mob 11
+not op_mini all
