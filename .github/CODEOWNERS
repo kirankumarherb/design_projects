@@ -1,0 +1,6 @@
+# This file is managed by Terraform.
+# DON'T EDIT THIS FILE DIRECTLY
+* @herbalifehub/PrincipalDevOps
+.github/workflows @herbalifehub/devops-devex
+.github/conf-envs @herbalifehub/devops-devex
+.github/scripts @herbalifehub/devops-devex
